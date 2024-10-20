@@ -66,12 +66,12 @@ This project is a RESTful API built with Express.js, TypeScript, and MongoDB. It
 
 ## API Endpoints
 
-### Example Endpoints
+### Users Endpoints
 
-- **GET** `/api/example` - Retrieve example data
-- **POST** `/api/example` - Create a new example entry
-- **PUT** `/api/example/:id` - Update an example entry
-- **DELETE** `/api/example/:id` - Delete an example entry
+- **GET** `/api/users` - Retrieve example data
+- **POST** `/api/users` - Create a new example entry
+- **PUT** `/api/users/:id` - Update an example entry
+- **DELETE** `/api/users/:id` - Delete an example entry
 
 ### Documentation
 
