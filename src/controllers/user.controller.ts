@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { plainToClass } from 'class-transformer';
+import { validate } from 'class-validator';
 
 export class UserController {
   private userService = new UserService();
@@ -17,15 +19,31 @@ export class UserController {
   }
 
   async createUser(req: Request, res: Response) {
-    const createUserDto: CreateUserDto = req.body;
-    const user = await this.userService.createUser(createUserDto);
-    res.status(201).json(user);
+    const createUserDto = plainToClass(CreateUserDto, req.body);
+    const errors = await validate(createUserDto);
+    if (errors.length > 0) {
+      res.status(400).json({
+        message: "Validation failed",
+        errors
+      });
+    } else {
+      const user = await this.userService.createUser(createUserDto);
+      res.status(201).json(user);
+    }
   }
 
   async updateUser(req: Request, res: Response) {
-    const updateUserDto: UpdateUserDto = req.body;
-    const user = await this.userService.updateUser(req.params.id, updateUserDto);
-    res.json(user);
+    const updateUserDto = plainToClass(UpdateUserDto, req.body);
+    const errors = await validate(updateUserDto);
+    if (errors.length > 0) {
+      res.status(400).json({
+        message: "Validation failed",
+        errors
+      });
+    } else {
+      const user = await this.userService.updateUser(req.params.id, updateUserDto);
+      res.json(user);
+    }
   }
 
   async deleteUser(req: Request, res: Response) {
