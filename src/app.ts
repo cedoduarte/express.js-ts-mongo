@@ -5,11 +5,14 @@ import { logger } from './middlewares/logger.middleware';
 import { errorHandler } from './middlewares/error-handler.middleware';
 import { authorization } from './middlewares/authorization.middleware';
 import { UserController } from './controllers/user.controller';
+import 'reflect-metadata';
+import { container } from './config/inversify.config';
+import { TYPES } from './types/types';
+
 
 const app = express();
-const userController = new UserController();
+const userController = container.get<UserController>(TYPES.UserController);
 
-// Middlewares
 app.use(cors({ origin: environment.FRONTEND_URL }));
 app.use(express.json());
 app.use(logger);

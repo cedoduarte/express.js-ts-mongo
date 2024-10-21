@@ -2,9 +2,12 @@ import { UserRepository } from '../repositories/user.repository';
 import { IUser } from '../models/user.model';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../types/types';
 
+@injectable()
 export class UserService {
-  private userRepository = new UserRepository();
+  constructor(@inject(TYPES.UserRepository) private userRepository: UserRepository) {}
 
   async getAllUsers(): Promise<IUser[]> {
     return this.userRepository.findAll();

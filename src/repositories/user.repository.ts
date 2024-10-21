@@ -1,5 +1,7 @@
 import { User, IUser } from '../models/user.model';
+import { injectable } from 'inversify';
 
+@injectable()
 export class UserRepository {
   async findAll(): Promise<IUser[]> {
     return User.find();

@@ -4,9 +4,12 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../types/types';
 
+@injectable()
 export class UserController {
-  private userService = new UserService();
+  constructor(@inject(TYPES.UserService) private userService: UserService) {}
 
   async getUsers(_req: Request, res: Response) {
     const users = await this.userService.getAllUsers();
