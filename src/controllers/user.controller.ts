@@ -6,10 +6,11 @@ import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/types';
+import 'reflect-metadata';
 
 @injectable()
 export class UserController {
-  constructor(@inject(TYPES.UserService) private userService: UserService) {}
+  constructor(@inject(TYPES.UserService) private readonly userService: UserService) {}
 
   async getUsers(_req: Request, res: Response) {
     const users = await this.userService.getAllUsers();

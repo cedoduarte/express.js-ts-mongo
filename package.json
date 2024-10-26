@@ -5,18 +5,22 @@
   "scripts": {
     "start": "ts-node-dev src/server.ts"
   },
-  "dependencies": {
+  "dependencies": {    
+    "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.21.1",
     "inversify": "^6.0.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.2",
     "reflect-metadata": "^0.2.2",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^18.18.13",

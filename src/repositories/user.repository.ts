@@ -1,5 +1,6 @@
 import { User, IUser } from '../models/user.model';
 import { injectable } from 'inversify';
+import 'reflect-metadata';
 
 @injectable()
 export class UserRepository {
@@ -9,6 +10,10 @@ export class UserRepository {
 
   async findById(id: string): Promise<IUser | null> {
     return User.findById(id);
+  }
+
+  async findByEmail(email: string): Promise<IUser | null> {
+    return User.findOne({ email });
   }
 
   async create(user: IUser): Promise<IUser> {

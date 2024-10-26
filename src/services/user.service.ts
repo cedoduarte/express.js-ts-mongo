@@ -4,6 +4,8 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/types';
+import 'reflect-metadata';
+import bcrypt from 'bcryptjs';
 
 @injectable()
 export class UserService {
@@ -18,7 +20,13 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<IUser> {
-    return this.userRepository.create(createUserDto as IUser);
+    const passwordHash: string = await bcrypt.hash(createUserDto.password, 10);
+    const user = {
+      name: createUserDto.name,
+      email: createUserDto.email,
+      passwordHash
+    } as IUser;
+    return this.userRepository.create(user);
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<IUser | null> {

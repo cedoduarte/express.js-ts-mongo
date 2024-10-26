@@ -1,15 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
 import { environment } from '../config/environment';
 
-export function authorization(req: Request, res: Response, next: NextFunction): void {
-  const token = req.headers['authorization']?.split(' ')[1];
-  if (!token) {
-    res.status(401).json({ message: 'Authorization header missing' });
-    return; // Ensure to return after sending a response
+class AuthorizationMiddleware {
+  public middleware() {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      const tokenHeader = req.headers['token'] as string | undefined;
+      if (!tokenHeader) {
+        res.status(401).json({ message: 'Token header missing' });
+        return;
+      }
+      if (tokenHeader !== environment.TOKEN) {
+        res.status(403).json({ message: 'Unauthorized' });
+        return;
+      }
+      next();
+    };
   }
-  if (token !== environment.TOKEN) {
-    res.status(403).json({ message: 'Unauthorized' });
-    return; // Ensure to return after sending a response
-  }
-  next(); // Call next only if the authorization is successful
 }
+
+const authorization = new AuthorizationMiddleware();
+export default authorization.middleware();
